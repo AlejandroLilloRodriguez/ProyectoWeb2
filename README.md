@@ -57,12 +57,6 @@ Los datos se convierten a formato JSON y se cargan automáticamente en la base d
 - ALejandro Lillo Rodriguez
 - Pablo Garay Pérez
 - Lorenzo Sanz Trucharte
-	•	Víctor Vega Martínez
-	•	Álvaro Íñiguez Disla
-	•	Claudia Erguido Aguilar
-	•	ALejandro Lillo Rodriguez
-	•	Pablo Garay Pérez
-	•	Lorenzo Sanz Trucharte
 
 ---
 
