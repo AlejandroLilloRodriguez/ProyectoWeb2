@@ -56,3 +56,19 @@ Los datos se convierten a formato JSON y se cargan automáticamente en la base d
 	•	ALejandro Lillo Rodriguez
 	•	Pablo Garay Pérez
 	•	Lorenzo Sanz Trucharte
+
+---
+
+## 📚 Documentación de la entrega 2
+
+La fase de diseño de la API se encuentra documentada en la carpeta `docs/` del repositorio:
+
+- `docs/01-diseno-rest.md`: diseño funcional de la API REST, recursos, rutas, operaciones, parámetros y ejemplos de mensajes JSON.
+- `docs/openapi.yaml`: especificación OpenAPI 3.1 del servicio con los esquemas JSON del diseño.
+
+### Decisiones principales del diseño
+
+- Los tres recursos principales del sistema son `teams`, `players` y `games`.
+- La colección `games` será la colección masiva del proyecto y contendrá al menos 1000 documentos.
+- La API ofrecerá filtrado y paginación sobre `games`.
+

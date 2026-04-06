@@ -1,0 +1,857 @@
+openapi: 3.1.0
+info:
+  title: API REST de Estadisticas de Baloncesto NBA
+  version: 1.0.0
+  summary: API para gestionar equipos, jugadores y partidos NBA.
+  description: |
+    API REST disenada para la asignatura SW II.
+
+    Caracteristicas cubiertas en el diseno:
+    - CRUD completo sobre teams, players y games.
+    - Soporte de mensajes JSON.
+    - Paginacion y filtrado sobre la coleccion masiva games.
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Entorno local
+tags:
+  - name: Health
+  - name: Teams
+  - name: Players
+  - name: Games
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Estado del servicio
+      operationId: getHealth
+      responses:
+        '200':
+          description: Servicio operativo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                default:
+                  value:
+                    status: ok
+                    service: nba-api
+                    timestamp: '2026-04-06T12:00:00.000Z'
+  /teams:
+    get:
+      tags: [Teams]
+      summary: Lista equipos
+      operationId: listTeams
+      parameters:
+        - $ref: '#/components/parameters/ConferenceParam'
+        - $ref: '#/components/parameters/DivisionParam'
+        - $ref: '#/components/parameters/CityParam'
+        - $ref: '#/components/parameters/NameParam'
+      responses:
+        '200':
+          description: Lista de equipos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamListResponse'
+    post:
+      tags: [Teams]
+      summary: Crea un equipo
+      operationId: createTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateRequest'
+      responses:
+        '201':
+          description: Equipo creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+  /teams/{teamId}:
+    get:
+      tags: [Teams]
+      summary: Recupera un equipo
+      operationId: getTeamById
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+      responses:
+        '200':
+          description: Equipo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Teams]
+      summary: Reemplaza un equipo
+      operationId: replaceTeam
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateRequest'
+      responses:
+        '200':
+          description: Equipo actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+    patch:
+      tags: [Teams]
+      summary: Actualiza parcialmente un equipo
+      operationId: patchTeam
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamPatchRequest'
+      responses:
+        '200':
+          description: Equipo actualizado parcialmente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+    delete:
+      tags: [Teams]
+      summary: Elimina un equipo
+      operationId: deleteTeam
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+      responses:
+        '204':
+          description: Equipo eliminado
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /teams/{teamId}/players:
+    get:
+      tags: [Teams, Players]
+      summary: Lista jugadores de un equipo
+      operationId: listPlayersByTeam
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Jugadores del equipo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerListResponse'
+  /teams/{teamId}/games:
+    get:
+      tags: [Teams, Games]
+      summary: Lista partidos de un equipo
+      operationId: listGamesByTeam
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPath'
+        - $ref: '#/components/parameters/SeasonParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Partidos del equipo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameListResponse'
+  /players:
+    get:
+      tags: [Players]
+      summary: Lista jugadores
+      operationId: listPlayers
+      parameters:
+        - $ref: '#/components/parameters/TeamIdQuery'
+        - $ref: '#/components/parameters/PositionParam'
+        - $ref: '#/components/parameters/ActiveParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Lista de jugadores
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerListResponse'
+    post:
+      tags: [Players]
+      summary: Crea un jugador
+      operationId: createPlayer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerCreateRequest'
+      responses:
+        '201':
+          description: Jugador creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /players/{playerId}:
+    get:
+      tags: [Players]
+      summary: Recupera un jugador
+      operationId: getPlayerById
+      parameters:
+        - $ref: '#/components/parameters/PlayerIdPath'
+      responses:
+        '200':
+          description: Jugador encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Players]
+      summary: Reemplaza un jugador
+      operationId: replacePlayer
+      parameters:
+        - $ref: '#/components/parameters/PlayerIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerCreateRequest'
+      responses:
+        '200':
+          description: Jugador actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+    patch:
+      tags: [Players]
+      summary: Actualiza parcialmente un jugador
+      operationId: patchPlayer
+      parameters:
+        - $ref: '#/components/parameters/PlayerIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerPatchRequest'
+      responses:
+        '200':
+          description: Jugador actualizado parcialmente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+    delete:
+      tags: [Players]
+      summary: Elimina un jugador
+      operationId: deletePlayer
+      parameters:
+        - $ref: '#/components/parameters/PlayerIdPath'
+      responses:
+        '204':
+          description: Jugador eliminado
+  /players/{playerId}/team:
+    get:
+      tags: [Players, Teams]
+      summary: Recupera el equipo del jugador
+      operationId: getTeamByPlayer
+      parameters:
+        - $ref: '#/components/parameters/PlayerIdPath'
+      responses:
+        '200':
+          description: Equipo del jugador
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /games:
+    get:
+      tags: [Games]
+      summary: Lista partidos con filtros y paginacion
+      operationId: listGames
+      parameters:
+        - $ref: '#/components/parameters/SeasonParam'
+        - $ref: '#/components/parameters/TeamIdQuery'
+        - $ref: '#/components/parameters/StatusParam'
+        - $ref: '#/components/parameters/PhaseParam'
+        - $ref: '#/components/parameters/DateFromParam'
+        - $ref: '#/components/parameters/DateToParam'
+        - $ref: '#/components/parameters/WinnerTeamIdParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Lista paginada de partidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameListResponse'
+    post:
+      tags: [Games]
+      summary: Crea un partido
+      operationId: createGame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameCreateRequest'
+      responses:
+        '201':
+          description: Partido creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /games/{gameId}:
+    get:
+      tags: [Games]
+      summary: Recupera un partido
+      operationId: getGameById
+      parameters:
+        - $ref: '#/components/parameters/GameIdPath'
+      responses:
+        '200':
+          description: Partido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+              examples:
+                default:
+                  value:
+                    id: 6610b1e02c6a2f0012df4001
+                    season: 2024
+                    date: '2024-11-15T00:00:00.000Z'
+                    status: finished
+                    phase: regular
+                    homeTeamId: 6610b1e02c6a2f0012df1001
+                    awayTeamId: 6610b1e02c6a2f0012df1002
+                    homeScore: 118
+                    awayScore: 110
+                    winnerTeamId: 6610b1e02c6a2f0012df1001
+                    arena: Crypto.com Arena
+                    city: Los Angeles
+                    externalSource:
+                      provider: balldontlie
+                      externalId: 982341
+                      syncedAt: '2026-03-01T10:00:00.000Z'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Games]
+      summary: Reemplaza un partido
+      operationId: replaceGame
+      parameters:
+        - $ref: '#/components/parameters/GameIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameCreateRequest'
+      responses:
+        '200':
+          description: Partido actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    patch:
+      tags: [Games]
+      summary: Actualiza parcialmente un partido
+      operationId: patchGame
+      parameters:
+        - $ref: '#/components/parameters/GameIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GamePatchRequest'
+      responses:
+        '200':
+          description: Partido actualizado parcialmente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    delete:
+      tags: [Games]
+      summary: Elimina un partido
+      operationId: deleteGame
+      parameters:
+        - $ref: '#/components/parameters/GameIdPath'
+      responses:
+        '204':
+          description: Partido eliminado
+components:
+  parameters:
+    TeamIdPath:
+      name: teamId
+      in: path
+      required: true
+      schema:
+        type: string
+    PlayerIdPath:
+      name: playerId
+      in: path
+      required: true
+      schema:
+        type: string
+    GameIdPath:
+      name: gameId
+      in: path
+      required: true
+      schema:
+        type: string
+    ConferenceParam:
+      name: conference
+      in: query
+      schema:
+        type: string
+        enum: [East, West]
+    DivisionParam:
+      name: division
+      in: query
+      schema:
+        type: string
+    CityParam:
+      name: city
+      in: query
+      schema:
+        type: string
+    NameParam:
+      name: name
+      in: query
+      schema:
+        type: string
+    TeamIdQuery:
+      name: teamId
+      in: query
+      schema:
+        type: string
+    PositionParam:
+      name: position
+      in: query
+      schema:
+        type: string
+    ActiveParam:
+      name: active
+      in: query
+      schema:
+        type: boolean
+    SearchParam:
+      name: search
+      in: query
+      schema:
+        type: string
+    SeasonParam:
+      name: season
+      in: query
+      schema:
+        type: integer
+        minimum: 1946
+    StatusParam:
+      name: status
+      in: query
+      schema:
+        type: string
+        enum: [scheduled, live, finished]
+    PhaseParam:
+      name: phase
+      in: query
+      schema:
+        type: string
+        enum: [preseason, regular, playoff]
+    DateFromParam:
+      name: dateFrom
+      in: query
+      schema:
+        type: string
+        format: date-time
+    DateToParam:
+      name: dateTo
+      in: query
+      schema:
+        type: string
+        format: date-time
+    WinnerTeamIdParam:
+      name: winnerTeamId
+      in: query
+      schema:
+        type: string
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  responses:
+    NotFoundError:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                error:
+                  code: NOT_FOUND
+                  message: Recurso no encontrado
+    ConflictError:
+      description: Conflicto de integridad
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Error de validacion
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                error:
+                  code: VALIDATION_ERROR
+                  message: El cuerpo de la peticion no es valido
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        service:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required: [status, service, timestamp]
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+        hasNextPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+      required: [page, limit, totalItems, totalPages, hasNextPage, hasPreviousPage]
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        abbreviation:
+          type: string
+        conference:
+          type: string
+        division:
+          type: string
+        foundedYear:
+          type: integer
+          nullable: true
+        venue:
+          type: string
+          nullable: true
+      required: [id, name, city, abbreviation, conference, division]
+    TeamCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        abbreviation:
+          type: string
+        conference:
+          type: string
+        division:
+          type: string
+        foundedYear:
+          type: integer
+        venue:
+          type: string
+      required: [name, city, abbreviation, conference, division]
+    TeamPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        abbreviation:
+          type: string
+        conference:
+          type: string
+        division:
+          type: string
+        foundedYear:
+          type: integer
+        venue:
+          type: string
+        championships:
+          type: integer
+        currentCoach:
+          type: string
+    Player:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        birthDate:
+          type: string
+          format: date-time
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+        position:
+          type: string
+          nullable: true
+        heightCm:
+          type: integer
+          nullable: true
+        weightKg:
+          type: integer
+          nullable: true
+        jerseyNumber:
+          type: integer
+          nullable: true
+        active:
+          type: boolean
+        debutYear:
+          type: integer
+          nullable: true
+        teamId:
+          type: string
+      required: [id, firstName, lastName, fullName, active, teamId]
+    PlayerCreateRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        birthDate:
+          type: string
+          format: date-time
+        nationality:
+          type: string
+        position:
+          type: string
+        heightCm:
+          type: integer
+        weightKg:
+          type: integer
+        jerseyNumber:
+          type: integer
+        active:
+          type: boolean
+        debutYear:
+          type: integer
+        teamId:
+          type: string
+      required: [firstName, lastName, fullName, active, teamId]
+    PlayerPatchRequest:
+      type: object
+      properties:
+        position:
+          type: string
+        heightCm:
+          type: integer
+        weightKg:
+          type: integer
+        jerseyNumber:
+          type: integer
+        active:
+          type: boolean
+        teamId:
+          type: string
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        season:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [scheduled, live, finished]
+        phase:
+          type: string
+          enum: [preseason, regular, playoff]
+        homeTeamId:
+          type: string
+        awayTeamId:
+          type: string
+        homeScore:
+          type: integer
+          nullable: true
+        awayScore:
+          type: integer
+          nullable: true
+        winnerTeamId:
+          type: string
+          nullable: true
+        arena:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        attendance:
+          type: integer
+          nullable: true
+      required: [id, season, date, status, phase, homeTeamId, awayTeamId]
+    GameCreateRequest:
+      type: object
+      properties:
+        season:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [scheduled, live, finished]
+        phase:
+          type: string
+          enum: [preseason, regular, playoff]
+        homeTeamId:
+          type: string
+        awayTeamId:
+          type: string
+        homeScore:
+          type: integer
+        awayScore:
+          type: integer
+        winnerTeamId:
+          type: string
+        arena:
+          type: string
+        city:
+          type: string
+        attendance:
+          type: integer
+      required: [season, date, status, phase, homeTeamId, awayTeamId]
+    GamePatchRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [scheduled, live, finished]
+        phase:
+          type: string
+          enum: [preseason, regular, playoff]
+        homeScore:
+          type: integer
+        awayScore:
+          type: integer
+        winnerTeamId:
+          type: string
+        arena:
+          type: string
+        city:
+          type: string
+        attendance:
+          type: integer
+    TeamListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+      required: [data]
+    PlayerListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required: [data, pagination]
+    GameListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Game'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required: [data, pagination]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+          required: [code, message]
+      required: [error]
