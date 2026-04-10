@@ -87,6 +87,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Team'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Team'
         '404':
           $ref: '#/components/responses/NotFoundError'
     put:
@@ -583,6 +586,8 @@ components:
       required: [page, limit, totalItems, totalPages, hasNextPage, hasPreviousPage]
     Team:
       type: object
+      xml:
+        name: Team
       properties:
         id:
           type: string

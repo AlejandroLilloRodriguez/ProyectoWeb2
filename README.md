@@ -4,7 +4,7 @@
 
 Este proyecto consiste en el diseño e implementación de una **API REST desarrollada en Node.js** que permite gestionar y consultar información relacionada con partidos, jugadores y equipos de baloncesto (NBA), utilizando **MongoDB como base de datos no relacional**.
 
-La API proporciona operaciones CRUD completas, permite realizar consultas avanzadas mediante filtros y paginación, y se integra con una **API externa** para enriquecer los datos almacenados.
+La API proporciona operaciones CRUD completas, permite realizar consultas avanzadas mediante filtros y paginación, y se integra con una **API externa** para enriquecer los datos almacenados. (Pendiente de definir modelo de conexión final con la API externa).
 
 ---
 
@@ -39,13 +39,13 @@ Las colecciones están relacionadas entre sí mediante identificadores (por ejem
 
 ## 📦 Dataset
 
-Se utiliza un dataset de baloncesto que contiene miles de registros de:
+Se utiliza un dataset de baloncesto extraído de **Kaggle** que contiene miles de registros de:
 
-- Partidos  
-- Jugadores  
-- Equipos  
+- Partidos
+- Jugadores
+- Equipos
 
-Los datos se convierten a formato JSON y se cargan automáticamente en la base de datos mediante un script.
+Los datos proporcionados por Kaggle se convierten a formato JSON y se cargan automáticamente en la base de datos mediante un script.
 
 ---
 

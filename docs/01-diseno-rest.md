@@ -203,6 +203,22 @@ Respuesta prevista:
   }
 }
 ```
+## Formato XML
+
+Para cumplir con la interoperabilidad de la API, el endpoint `GET /api/v1/teams/{teamId}` soporta el formato XML indicándolo mediante la cabecera `Accept: application/xml`.
+
+Ejemplo de respuesta XML:
+
+```xml
+<Team>
+  <id>6610b1e02c6a2f0012df1001</id>
+  <name>Lakers</name>
+  <city>Los Angeles</city>
+  <abbreviation>LAL</abbreviation>
+  <conference>West</conference>
+  <division>Pacific</division>
+</Team>
+```
 
 ## Esquemas JSON principales
 
