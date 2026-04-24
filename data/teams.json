@@ -1,0 +1,302 @@
+[
+  {
+    "name": "Atlanta Hawks",
+    "city": "Atlanta",
+    "abbreviation": "ATL",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1949.0,
+    "venue": null,
+    "_kaggleId": 1610612737
+  },
+  {
+    "name": "Boston Celtics",
+    "city": "Boston",
+    "abbreviation": "BOS",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1946.0,
+    "venue": null,
+    "_kaggleId": 1610612738
+  },
+  {
+    "name": "Cleveland Cavaliers",
+    "city": "Cleveland",
+    "abbreviation": "CLE",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1970.0,
+    "venue": null,
+    "_kaggleId": 1610612739
+  },
+  {
+    "name": "New Orleans Pelicans",
+    "city": "New Orleans",
+    "abbreviation": "NOP",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 2002.0,
+    "venue": null,
+    "_kaggleId": 1610612740
+  },
+  {
+    "name": "Chicago Bulls",
+    "city": "Chicago",
+    "abbreviation": "CHI",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1966.0,
+    "venue": null,
+    "_kaggleId": 1610612741
+  },
+  {
+    "name": "Dallas Mavericks",
+    "city": "Dallas",
+    "abbreviation": "DAL",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1980.0,
+    "venue": null,
+    "_kaggleId": 1610612742
+  },
+  {
+    "name": "Denver Nuggets",
+    "city": "Denver",
+    "abbreviation": "DEN",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1976.0,
+    "venue": null,
+    "_kaggleId": 1610612743
+  },
+  {
+    "name": "Golden State Warriors",
+    "city": "Golden State",
+    "abbreviation": "GSW",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1946.0,
+    "venue": null,
+    "_kaggleId": 1610612744
+  },
+  {
+    "name": "Houston Rockets",
+    "city": "Houston",
+    "abbreviation": "HOU",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1967.0,
+    "venue": null,
+    "_kaggleId": 1610612745
+  },
+  {
+    "name": "Los Angeles Clippers",
+    "city": "Los Angeles",
+    "abbreviation": "LAC",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1970.0,
+    "venue": null,
+    "_kaggleId": 1610612746
+  },
+  {
+    "name": "Los Angeles Lakers",
+    "city": "Los Angeles",
+    "abbreviation": "LAL",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1948.0,
+    "venue": null,
+    "_kaggleId": 1610612747
+  },
+  {
+    "name": "Miami Heat",
+    "city": "Miami",
+    "abbreviation": "MIA",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1988.0,
+    "venue": null,
+    "_kaggleId": 1610612748
+  },
+  {
+    "name": "Milwaukee Bucks",
+    "city": "Milwaukee",
+    "abbreviation": "MIL",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1968.0,
+    "venue": null,
+    "_kaggleId": 1610612749
+  },
+  {
+    "name": "Minnesota Timberwolves",
+    "city": "Minnesota",
+    "abbreviation": "MIN",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1989.0,
+    "venue": null,
+    "_kaggleId": 1610612750
+  },
+  {
+    "name": "Brooklyn Nets",
+    "city": "Brooklyn",
+    "abbreviation": "BKN",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1976.0,
+    "venue": null,
+    "_kaggleId": 1610612751
+  },
+  {
+    "name": "New York Knicks",
+    "city": "New York",
+    "abbreviation": "NYK",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1946.0,
+    "venue": null,
+    "_kaggleId": 1610612752
+  },
+  {
+    "name": "Orlando Magic",
+    "city": "Orlando",
+    "abbreviation": "ORL",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1989.0,
+    "venue": null,
+    "_kaggleId": 1610612753
+  },
+  {
+    "name": "Indiana Pacers",
+    "city": "Indiana",
+    "abbreviation": "IND",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1976.0,
+    "venue": null,
+    "_kaggleId": 1610612754
+  },
+  {
+    "name": "Philadelphia 76ers",
+    "city": "Philadelphia",
+    "abbreviation": "PHI",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1949.0,
+    "venue": null,
+    "_kaggleId": 1610612755
+  },
+  {
+    "name": "Phoenix Suns",
+    "city": "Phoenix",
+    "abbreviation": "PHX",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1968.0,
+    "venue": null,
+    "_kaggleId": 1610612756
+  },
+  {
+    "name": "Portland Trail Blazers",
+    "city": "Portland",
+    "abbreviation": "POR",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1970.0,
+    "venue": null,
+    "_kaggleId": 1610612757
+  },
+  {
+    "name": "Sacramento Kings",
+    "city": "Sacramento",
+    "abbreviation": "SAC",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1948.0,
+    "venue": null,
+    "_kaggleId": 1610612758
+  },
+  {
+    "name": "San Antonio Spurs",
+    "city": "San Antonio",
+    "abbreviation": "SAS",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1976.0,
+    "venue": null,
+    "_kaggleId": 1610612759
+  },
+  {
+    "name": "Oklahoma City Thunder",
+    "city": "Oklahoma City",
+    "abbreviation": "OKC",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1967.0,
+    "venue": null,
+    "_kaggleId": 1610612760
+  },
+  {
+    "name": "Toronto Raptors",
+    "city": "Toronto",
+    "abbreviation": "TOR",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1995.0,
+    "venue": null,
+    "_kaggleId": 1610612761
+  },
+  {
+    "name": "Utah Jazz",
+    "city": "Utah",
+    "abbreviation": "UTA",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1974.0,
+    "venue": null,
+    "_kaggleId": 1610612762
+  },
+  {
+    "name": "Memphis Grizzlies",
+    "city": "Memphis",
+    "abbreviation": "MEM",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1995.0,
+    "venue": null,
+    "_kaggleId": 1610612763
+  },
+  {
+    "name": "Washington Wizards",
+    "city": "Washington",
+    "abbreviation": "WAS",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1961.0,
+    "venue": null,
+    "_kaggleId": 1610612764
+  },
+  {
+    "name": "Detroit Pistons",
+    "city": "Detroit",
+    "abbreviation": "DET",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1948.0,
+    "venue": null,
+    "_kaggleId": 1610612765
+  },
+  {
+    "name": "Charlotte Hornets",
+    "city": "Charlotte",
+    "abbreviation": "CHA",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 1988.0,
+    "venue": null,
+    "_kaggleId": 1610612766
+  }
+]
