@@ -1,0 +1,32 @@
+{
+  "name": "proyectoweb2",
+  "version": "1.0.0",
+  "description": "Este proyecto consiste en el diseño e implementación de una **API REST desarrollada en Node.js** que permite gestionar y consultar información relacionada con partidos, jugadores y equipos de baloncesto (NBA), utilizando **MongoDB como base de datos no relacional**.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlejandroLilloRodriguez/ProyectoWeb2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlejandroLilloRodriguez/ProyectoWeb2/issues"
+  },
+  "homepage": "https://github.com/AlejandroLilloRodriguez/ProyectoWeb2#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.1",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
