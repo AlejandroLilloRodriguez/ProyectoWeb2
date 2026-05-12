@@ -468,7 +468,7 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
 ### 3.1 Health (rápido, cualquiera lo puede hacer)
 
-- [ ] Crear `src/routes/health.js`:
+- [X] Crear `src/routes/health.js`:
   ```javascript
   const router = require('express').Router();
 
@@ -481,7 +481,7 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
 ### 3.2 Error handler centralizado
 
-- [ ] Crear `src/middleware/errorHandler.js`:
+- [X] Crear `src/middleware/errorHandler.js`:
   ```javascript
   function errorHandler(err, req, res, next) {
     const status = err.status || 500;
@@ -498,7 +498,7 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
 ### 3.3 Teams — CRUD completo
 
-- [ ] Crear `src/routes/teams.js`:
+- [X] Crear `src/routes/teams.js`:
 
   ```javascript
   const router = require('express').Router();
@@ -516,7 +516,7 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
   module.exports = router;
   ```
-- [ ] Crear `src/controllers/teamsController.js` con estos handlers:
+- [X] Crear `src/controllers/teamsController.js` con estos handlers:
 
   - `listTeams`: filtra por `conference`, `division`, `city`, `name` si vienen en query
   - `createTeam`: `Team.create(req.body)`, devuelve 201
@@ -529,21 +529,13 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
 ### 3.4 Players — CRUD completo
 
-- [ ] Crear `src/routes/players.js` con las rutas de players (igual que teams)
-- [ ] Crear `src/controllers/playersController.js`:
-  - `listPlayers`: filtros `teamId`, `position`, `active`, busqueda por nombre (`search` busca coincidencias parciales en `fullName`), paginacion
-  - `createPlayer`: validar que `teamId` existe antes de crear
-  - `getPlayerById`: findById con 404
-  - `replacePlayer`, `patchPlayer`, `deletePlayer`: igual que teams
-  - `getTeamByPlayer`: busca el jugador, luego busca su `teamId`
+- [X] Crear `src/routes/players.js` con las rutas de players (igual que teams)
+- [X] Crear `src/controllers/playersController.js`:
 
 ### 3.5 Games — CRUD completo
 
-- [ ] Crear `src/routes/games.js` con las rutas de games
-- [ ] Crear `src/controllers/gamesController.js`:
-  - `listGames`: filtros `season`, `teamId` (home o away), `status`, `phase`, `dateFrom`, `dateTo`, `winnerTeamId`, **paginación obligatoria**
-  - `createGame`: validar que `homeTeamId` y `awayTeamId` existen
-  - `getGameById`, `replaceGame`, `patchGame`, `deleteGame`: igual
+- [X] Crear `src/routes/games.js` con las rutas de games
+- [X] Crear `src/controllers/gamesController.js`:
 
 ### Paginación (patrón estándar para games y players)
 
