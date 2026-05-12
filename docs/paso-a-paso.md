@@ -192,19 +192,19 @@ print(f"Games: {len(games)}")
 
 ### 2.1 Inicializar el proyecto
 
-- [ ] Dentro de `ProyectoWeb2/`:
+- [X] Dentro de `ProyectoWeb2/`:
   ```bash
   npm init -y
   ```
-- [ ] Instalar dependencias de producción:
+- [X] Instalar dependencias de producción:
   ```bash
   npm install express mongoose dotenv xml2js
   ```
-- [ ] Instalar dependencias de desarrollo:
+- [X] Instalar dependencias de desarrollo:
   ```bash
   npm install --save-dev nodemon
   ```
-- [ ] Añadir scripts en `package.json`:
+- [X] Añadir scripts en `package.json`:
   ```json
   "scripts": {
     "start": "node src/server.js",
@@ -212,7 +212,7 @@ print(f"Games: {len(games)}")
     "seed": "node scripts/seed.js"
   }
   ```
-- [ ] Crear `.gitignore` con:
+- [X] Crear `.gitignore` con:
   ```
   node_modules/
   .env
@@ -220,7 +220,7 @@ print(f"Games: {len(games)}")
 
 ### 2.2 Crear la estructura de carpetas
 
-- [ ] Crear la siguiente estructura (en `ProyectoWeb2/`):
+- [X] Crear la siguiente estructura (en `ProyectoWeb2/`):
   ```
   src/
     server.js
@@ -255,7 +255,7 @@ print(f"Games: {len(games)}")
 
 ### 2.3 Conexión a MongoDB
 
-- [ ] Crear `src/config/db.js`:
+- [X] Crear `src/config/db.js`:
   ```javascript
   const mongoose = require('mongoose');
 
@@ -269,7 +269,7 @@ print(f"Games: {len(games)}")
 
 ### 2.4 Crear los modelos Mongoose
 
-- [ ] Crear `src/models/Team.js`:
+- [X] Crear `src/models/Team.js`:
 
   ```javascript
   const { Schema, model } = require('mongoose');
@@ -286,7 +286,7 @@ print(f"Games: {len(games)}")
 
   module.exports = model('Team', teamSchema);
   ```
-- [ ] Crear `src/models/Player.js`:
+- [X] Crear `src/models/Player.js`:
 
   ```javascript
   const { Schema, model, Types } = require('mongoose');
@@ -306,7 +306,7 @@ print(f"Games: {len(games)}")
 
   module.exports = model('Player', playerSchema);
   ```
-- [ ] Crear `src/models/Game.js`:
+- [X] Crear `src/models/Game.js`:
 
   ```javascript
   const { Schema, model, Types } = require('mongoose');
@@ -336,7 +336,7 @@ print(f"Games: {len(games)}")
 
 ### 2.5 Crear el Express app
 
-- [ ] Crear `src/app.js`:
+- [X] Crear `src/app.js`:
 
   ```javascript
   const express = require('express');
@@ -359,7 +359,7 @@ print(f"Games: {len(games)}")
 
   module.exports = app;
   ```
-- [ ] Crear `src/server.js`:
+- [X] Crear `src/server.js`:
 
   ```javascript
   require('dotenv').config();
@@ -374,13 +374,13 @@ print(f"Games: {len(games)}")
     });
   });
   ```
-- [ ] Verificar que arranca: `npm run dev` → debe verse "MongoDB conectado" y "Servidor en..."
+- [X] Verificar que arranca: `npm run dev` → debe verse "MongoDB conectado" y "Servidor en..."
 
 ### 2.6 Script de seed
 
 El seed carga los datos en este orden: primero teams, luego players (necesita IDs de teams), luego games (necesita IDs de teams).
 
-- [ ] Crear `scripts/seed.js`:
+- [X] Crear `scripts/seed.js`:
 
   ```javascript
   require('dotenv').config();
@@ -453,8 +453,8 @@ El seed carga los datos en este orden: primero teams, luego players (necesita ID
 
   seed().catch(err => { console.error(err); process.exit(1); });
   ```
-- [ ] Ejecutar `npm run seed` y verificar en MongoDB Compass que las tres colecciones tienen datos
-- [ ] Confirmar que `games` tiene más de 1000 documentos
+- [X] Ejecutar `npm run seed` y verificar en MongoDB Compass que las tres colecciones tienen datos
+- [X] Confirmar que `games` tiene más de 1000 documentos
 
 ---
 
