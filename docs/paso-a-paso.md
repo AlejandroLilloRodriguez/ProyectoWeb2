@@ -1,7 +1,7 @@
 # Paso a paso — NBA Stats API (SW2, CEU)
 
-> Guía de implementación completa para el grupo de 6 personas.  
-> Objetivo: cumplir **todos** los requisitos del enunciado de la forma más simple y limpia posible.  
+> Guía de implementación completa para el grupo de 6 personas.
+> Objetivo: cumplir **todos** los requisitos del enunciado de la forma más simple y limpia posible.
 > Sigue el orden. Cada fase tiene checklist con tareas concretas y asignación sugerida.
 
 ---
@@ -38,7 +38,8 @@ Todo esto ya está pensado y diseñado. Las rutas están en `docs/openapi.yaml`.
 
 ---
 
-<a name="fase-0"></a>
+`<a name="fase-0"></a>`
+
 ## Configuración inicial
 
 ### Tareas
@@ -59,26 +60,28 @@ Todo esto ya está pensado y diseñado. Las rutas están en `docs/openapi.yaml`.
 
 ---
 
-<a name="fase-1"></a>
+`<a name="fase-1"></a>`
+
 ## Fase 1 — Datos: Kaggle → JSON
 
 > **FASE COMPLETADA** — Los JSON ya estan en el repo.
 
 ### 1.1 Descargar el dataset de Kaggle
 
-- [x] Ir a [kaggle.com/datasets/wyattowalsh/basketball](https://www.kaggle.com/datasets/wyattowalsh/basketball)
-- [x] Iniciar sesión en Kaggle (o crear cuenta gratis)
-- [x] Descargar el dataset (botón "Download") — viene en zip con CSVs y/o SQLite
-- [x] Descomprimir en una carpeta temporal **fuera del repo** (los archivos son grandes)
+- [X] Ir a [kaggle.com/datasets/wyattowalsh/basketball](https://www.kaggle.com/datasets/wyattowalsh/basketball)
+- [X] Iniciar sesión en Kaggle (o crear cuenta gratis)
+- [X] Descargar el dataset (botón "Download") — viene en zip con CSVs y/o SQLite
+- [X] Descomprimir en una carpeta temporal **fuera del repo** (los archivos son grandes)
 
 El dataset contiene tablas como `game.csv`, `player.csv`, `team.csv` y más. Hay datos desde la temporada 1946-47 hasta la actual.
 
 ### 1.2 Explorar los datos
 
-- [x] Abrir el archivo `game.csv` o `basketball.sqlite` con:
+- [X] Abrir el archivo `game.csv` o `basketball.sqlite` con:
+
   - **Excel / LibreOffice** para ver columnas a ojo
   - O **DB Browser for SQLite** (gratuito) si el dataset viene en `.sqlite`
-- [x] Identificar las columnas que nos interesan en cada tabla:
+- [X] Identificar las columnas que nos interesan en cada tabla:
 
   **teams** → `id`, `full_name`, `city`, `abbreviation`, `conference`, `division`, `year_founded`, `arena`
 
@@ -90,8 +93,8 @@ El dataset contiene tablas como `game.csv`, `player.csv`, `team.csv` y más. Hay
 
 Python es la herramienta más rápida para esto. Si no tienes Python, instala la versión 3.x.
 
-- [x] Instalar pandas si no lo tienes: `pip install pandas`
-- [x] Crear un script de conversión `scripts/convert-data.py` con este contenido:
+- [X] Instalar pandas si no lo tienes: `pip install pandas`
+- [X] Crear un script de conversión `scripts/convert-data.py` con este contenido:
 
 ```python
 import pandas as pd
@@ -168,8 +171,8 @@ with open('data/games.json', 'w', encoding='utf-8') as f:
 print(f"Games: {len(games)}")
 ```
 
-- [x] Ejecutar: `python scripts/convert-data.py`
-- [x] Verificar que:
+- [X] Ejecutar: `python scripts/convert-data.py`
+- [X] Verificar que:
   - `data/teams.json` tiene ~30 equipos (30 generados)
   - `data/players.json` tiene cientos de jugadores (4831 generados)
   - `data/games.json` tiene **más de 1000 documentos** (65698 generados)
@@ -178,15 +181,14 @@ print(f"Games: {len(games)}")
 
 ### 1.4 Verificar la calidad del JSON
 
-- [x] Abrir los archivos JSON en VSCode y revisar que los datos tienen sentido
-- [x] Comprobar que no hay arrays completamente vacíos o campos con `null` en exceso
+- [X] Abrir los archivos JSON en VSCode y revisar que los datos tienen sentido
+- [X] Comprobar que no hay arrays completamente vacíos o campos con `null` en exceso
 
 ---
 
-<a name="fase-2"></a>
+`<a name="fase-2"></a>`
+
 ## Fase 2 — Esqueleto del proyecto Node.js
-
-
 
 ### 2.1 Inicializar el proyecto
 
@@ -268,6 +270,7 @@ print(f"Games: {len(games)}")
 ### 2.4 Crear los modelos Mongoose
 
 - [ ] Crear `src/models/Team.js`:
+
   ```javascript
   const { Schema, model } = require('mongoose');
 
@@ -283,8 +286,8 @@ print(f"Games: {len(games)}")
 
   module.exports = model('Team', teamSchema);
   ```
-
 - [ ] Crear `src/models/Player.js`:
+
   ```javascript
   const { Schema, model, Types } = require('mongoose');
 
@@ -303,8 +306,8 @@ print(f"Games: {len(games)}")
 
   module.exports = model('Player', playerSchema);
   ```
-
 - [ ] Crear `src/models/Game.js`:
+
   ```javascript
   const { Schema, model, Types } = require('mongoose');
 
@@ -334,6 +337,7 @@ print(f"Games: {len(games)}")
 ### 2.5 Crear el Express app
 
 - [ ] Crear `src/app.js`:
+
   ```javascript
   const express = require('express');
   const app = express();
@@ -355,8 +359,8 @@ print(f"Games: {len(games)}")
 
   module.exports = app;
   ```
-
 - [ ] Crear `src/server.js`:
+
   ```javascript
   require('dotenv').config();
   const app = require('./app');
@@ -370,7 +374,6 @@ print(f"Games: {len(games)}")
     });
   });
   ```
-
 - [ ] Verificar que arranca: `npm run dev` → debe verse "MongoDB conectado" y "Servidor en..."
 
 ### 2.6 Script de seed
@@ -378,6 +381,7 @@ print(f"Games: {len(games)}")
 El seed carga los datos en este orden: primero teams, luego players (necesita IDs de teams), luego games (necesita IDs de teams).
 
 - [ ] Crear `scripts/seed.js`:
+
   ```javascript
   require('dotenv').config();
   const mongoose = require('mongoose');
@@ -449,16 +453,14 @@ El seed carga los datos en este orden: primero teams, luego players (necesita ID
 
   seed().catch(err => { console.error(err); process.exit(1); });
   ```
-
 - [ ] Ejecutar `npm run seed` y verificar en MongoDB Compass que las tres colecciones tienen datos
 - [ ] Confirmar que `games` tiene más de 1000 documentos
 
 ---
 
-<a name="fase-3"></a>
+`<a name="fase-3"></a>`
+
 ## Fase 3 — CRUD: Teams, Players, Games
-
-
 
 ### Patrón que hay que repetir (igual para los tres recursos)
 
@@ -497,6 +499,7 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 ### 3.3 Teams — CRUD completo
 
 - [ ] Crear `src/routes/teams.js`:
+
   ```javascript
   const router = require('express').Router();
   const ctrl = require('../controllers/teamsController');
@@ -513,12 +516,12 @@ Para cada recurso (teams, players, games) el flujo es siempre el mismo: definir 
 
   module.exports = router;
   ```
-
 - [ ] Crear `src/controllers/teamsController.js` con estos handlers:
+
   - `listTeams`: filtra por `conference`, `division`, `city`, `name` si vienen en query
   - `createTeam`: `Team.create(req.body)`, devuelve 201
   - `getTeamById`: `Team.findById(teamId)`, devuelve 404 si no existe
-  - `replaceTeam`: `Team.findByIdAndReplace(...)` 
+  - `replaceTeam`: `Team.findByIdAndReplace(...)`
   - `patchTeam`: `Team.findByIdAndUpdate(teamId, req.body, { new: true })`
   - `deleteTeam`: `Team.findByIdAndDelete(teamId)`, devuelve 204
   - `listPlayersByTeam`: `Player.find({ teamId })` con paginación básica
@@ -581,18 +584,17 @@ async function listGames(req, res, next) {
 
 ---
 
-<a name="fase-4"></a>
+`<a name="fase-4"></a>`
+
 ## Fase 4 — Funcionalidades avanzadas
-
-
 
 ### 4.1 Soporte XML en GET /teams/:teamId
 
 El enunciado pide **al menos un mensaje en XML con schema XSD asociado**. Lo implementamos en `GET /teams/:teamId`.
 
 - [ ] Instalar `xml2js` (ya está instalado desde Fase 2)
-
 - [ ] Crear `src/middleware/xmlResponse.js`:
+
   ```javascript
   const xml2js = require('xml2js');
 
@@ -615,8 +617,8 @@ El enunciado pide **al menos un mensaje en XML con schema XSD asociado**. Lo imp
 
   module.exports = xmlResponse;
   ```
-
 - [ ] Crear `docs/team.xsd` — schema XSD del mensaje XML:
+
   ```xml
   <?xml version="1.0" encoding="UTF-8"?>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -636,8 +638,8 @@ El enunciado pide **al menos un mensaje en XML con schema XSD asociado**. Lo imp
     </xs:element>
   </xs:schema>
   ```
-
 - [ ] Probar con curl:
+
   ```bash
   curl -H "Accept: application/xml" http://localhost:3000/api/v1/teams/<teamId>
   ```
@@ -645,6 +647,7 @@ El enunciado pide **al menos un mensaje en XML con schema XSD asociado**. Lo imp
 ### 4.2 Integración con API externa (balldontlie)
 
 El enunciado pide:
+
 - Consumir al menos **1 mensaje en JSON** de la API externa
 - Consumir al menos **1 mensaje en XML** de la API externa
 - Los datos consumidos deben **guardarse en MongoDB**
@@ -695,13 +698,13 @@ module.exports = { fetchTeamsFromBalldontlie, fetchStandingsXML };
 ```
 
 - [ ] Crear una ruta de sincronización `POST /api/v1/sync` (o incluirlo en el seed) que:
+
   1. Llama a `fetchTeamsFromBalldontlie()` → recibe JSON → guarda/actualiza teams en MongoDB
   2. Llama a `fetchStandingsXML()` → recibe XML → parsea con `xml2js` → guarda en MongoDB
   3. Si falla la llamada externa, captura el error y devuelve los datos que ya hay en BD (la API sigue funcionando)
-
 - [ ] Guardar en los documentos de MongoDB el campo `externalSource` con `{ provider, externalId, syncedAt }` para acreditar que vienen de la API externa
-
 - [ ] Añadir gestión de errores explícita para el caso de API externa caída:
+
   ```javascript
   try {
     const externalData = await fetchTeamsFromBalldontlie();
@@ -716,10 +719,9 @@ module.exports = { fetchTeamsFromBalldontlie, fetchStandingsXML };
 
 ---
 
-<a name="fase-5"></a>
+`<a name="fase-5"></a>`
+
 ## Fase 5 — Pulido, pruebas y entrega final
-
-
 
 ### 5.1 Pruebas manuales de todos los endpoints
 
@@ -768,23 +770,23 @@ Ir al checklist de abajo y marcar todo antes de entregar.
 
 ---
 
-<a name="division"></a>
+`<a name="division"></a>`
+
 ## División de trabajo sugerida (6 personas)
 
-| Persona | Tarea principal |
-|---------|----------------|
+| Persona             | Tarea principal                                                                  |
+| ------------------- | -------------------------------------------------------------------------------- |
 | **Persona 1** | Fase 1 completa: descargar Kaggle, script Python de conversión, verificar JSONs |
-| **Persona 2** | Fase 2 completa: estructura Node.js, modelos Mongoose, app.js, seed.js |
-| **Persona 3** | Fase 3: CRUD de Teams + middleware XML + XSD |
-| **Persona 4** | Fase 3: CRUD de Players con filtros y paginación |
-| **Persona 5** | Fase 3: CRUD de Games con filtros y paginación |
-| **Persona 6** | Fase 4: integración API externa (JSON + XML) + health + error handler + README |
-
-
+| **Persona 2** | Fase 2 completa: estructura Node.js, modelos Mongoose, app.js, seed.js           |
+| **Persona 3** | Fase 3: CRUD de Teams + middleware XML + XSD                                     |
+| **Persona 4** | Fase 3: CRUD de Players con filtros y paginación                                |
+| **Persona 5** | Fase 3: CRUD de Games con filtros y paginación                                  |
+| **Persona 6** | Fase 4: integración API externa (JSON + XML) + health + error handler + README  |
 
 ---
 
-<a name="checklist-final"></a>
+`<a name="checklist-final"></a>`
+
 ## Checklist final contra el enunciado
 
 Marca todo esto antes de la entrega. Si algo no está marcado, no está hecho.
@@ -817,4 +819,3 @@ Marca todo esto antes de la entrega. Si algo no está marcado, no está hecho.
 - [ ] `README.md` — instrucciones completas para arrancar el proyecto
 - [ ] `README.md` — lista de integrantes del grupo ✓
 - [ ] Modelo de datos documentado (en README o en docs/)
-
