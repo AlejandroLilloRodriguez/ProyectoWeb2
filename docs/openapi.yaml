@@ -2,22 +2,28 @@ openapi: 3.1.0
 info:
   title: API REST de Estadisticas de Baloncesto NBA
   version: 1.0.0
+  license:
+    name: ISC
+    identifier: ISC
   summary: API para gestionar equipos, jugadores y partidos NBA.
   description: |
     API REST disenada para la asignatura SW II.
 
-    Caracteristicas cubiertas en el diseno:
-    - CRUD completo sobre teams, players y games.
-    - Soporte de mensajes JSON.
-    - Paginacion y filtrado sobre la coleccion masiva games.
+    Cubre CRUD sobre teams, players y games, relaciones entre recursos,
+    paginacion, filtrado, respuestas JSON y respuesta XML para un equipo.
 servers:
   - url: http://localhost:3000/api/v1
     description: Entorno local
+security: []
 tags:
   - name: Health
+    description: Estado del servicio
   - name: Teams
+    description: Equipos NBA
   - name: Players
+    description: Jugadores NBA
   - name: Games
+    description: Partidos NBA
 paths:
   /health:
     get:
@@ -31,12 +37,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
-              examples:
-                default:
-                  value:
-                    status: ok
-                    service: nba-api
-                    timestamp: '2026-04-06T12:00:00.000Z'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /teams:
     get:
       tags: [Teams]
@@ -54,6 +59,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags: [Teams]
       summary: Crea un equipo
@@ -64,6 +73,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TeamCreateRequest'
+            examples:
+              default:
+                value:
+                  name: Lakers
+                  city: Los Angeles
+                  abbreviation: LAL
+                  conference: West
+                  division: Pacific
+                  foundedYear: 1947
+                  venue: Crypto.com Arena
       responses:
         '201':
           description: Equipo creado
@@ -73,6 +92,11 @@ paths:
                 $ref: '#/components/schemas/Team'
         '409':
           $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /teams/{teamId}:
     get:
       tags: [Teams]
@@ -90,8 +114,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     put:
       tags: [Teams]
       summary: Reemplaza un equipo
@@ -111,6 +139,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     patch:
       tags: [Teams]
       summary: Actualiza parcialmente un equipo
@@ -130,6 +168,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     delete:
       tags: [Teams]
       summary: Elimina un equipo
@@ -139,8 +187,13 @@ paths:
       responses:
         '204':
           description: Equipo eliminado
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /teams/{teamId}/players:
     get:
       tags: [Teams, Players]
@@ -157,6 +210,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /teams/{teamId}/games:
     get:
       tags: [Teams, Games]
@@ -174,6 +234,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GameListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /players:
     get:
       tags: [Players]
@@ -193,6 +260,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags: [Players]
       summary: Crea un jugador
@@ -203,6 +274,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PlayerCreateRequest'
+            examples:
+              default:
+                value:
+                  firstName: LeBron
+                  lastName: James
+                  fullName: LeBron James
+                  position: F
+                  active: true
+                  teamId: 6610b1e02c6a2f0012df1001
       responses:
         '201':
           description: Jugador creado
@@ -210,8 +290,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /players/{playerId}:
     get:
       tags: [Players]
@@ -226,8 +311,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     put:
       tags: [Players]
       summary: Reemplaza un jugador
@@ -247,6 +336,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     patch:
       tags: [Players]
       summary: Actualiza parcialmente un jugador
@@ -266,6 +363,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     delete:
       tags: [Players]
       summary: Elimina un jugador
@@ -275,6 +380,13 @@ paths:
       responses:
         '204':
           description: Jugador eliminado
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /players/{playerId}/team:
     get:
       tags: [Players, Teams]
@@ -289,8 +401,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /games:
     get:
       tags: [Games]
@@ -313,6 +430,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GameListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags: [Games]
       summary: Crea un partido
@@ -323,6 +444,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GameCreateRequest'
+            examples:
+              default:
+                value:
+                  season: 2024
+                  date: '2024-11-15T00:00:00.000Z'
+                  status: finished
+                  phase: regular
+                  homeTeamId: 6610b1e02c6a2f0012df1001
+                  awayTeamId: 6610b1e02c6a2f0012df1002
+                  homeScore: 118
+                  awayScore: 110
+                  winnerTeamId: 6610b1e02c6a2f0012df1001
+                  arena: Crypto.com Arena
+                  city: Los Angeles
       responses:
         '201':
           description: Partido creado
@@ -330,8 +465,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Game'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /games/{gameId}:
     get:
       tags: [Games]
@@ -346,27 +486,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Game'
-              examples:
-                default:
-                  value:
-                    id: 6610b1e02c6a2f0012df4001
-                    season: 2024
-                    date: '2024-11-15T00:00:00.000Z'
-                    status: finished
-                    phase: regular
-                    homeTeamId: 6610b1e02c6a2f0012df1001
-                    awayTeamId: 6610b1e02c6a2f0012df1002
-                    homeScore: 118
-                    awayScore: 110
-                    winnerTeamId: 6610b1e02c6a2f0012df1001
-                    arena: Crypto.com Arena
-                    city: Los Angeles
-                    externalSource:
-                      provider: balldontlie
-                      externalId: 982341
-                      syncedAt: '2026-03-01T10:00:00.000Z'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     put:
       tags: [Games]
       summary: Reemplaza un partido
@@ -386,6 +511,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Game'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     patch:
       tags: [Games]
       summary: Actualiza parcialmente un partido
@@ -405,6 +538,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Game'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     delete:
       tags: [Games]
       summary: Elimina un partido
@@ -414,6 +555,13 @@ paths:
       responses:
         '204':
           description: Partido eliminado
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 components:
   parameters:
     TeamIdPath:
@@ -525,7 +673,20 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+
   responses:
+    BadRequestError:
+      description: Peticion invalida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                error:
+                  code: BAD_REQUEST
+                  message: Identificador o parametro con formato no valido
     NotFoundError:
       description: Recurso no encontrado
       content:
@@ -544,6 +705,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                error:
+                  code: CONFLICT
+                  message: Ya existe un recurso con esos datos unicos
     ValidationError:
       description: Error de validacion
       content:
@@ -556,6 +723,19 @@ components:
                 error:
                   code: VALIDATION_ERROR
                   message: El cuerpo de la peticion no es valido
+    InternalServerError:
+      description: Error interno del servidor
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                error:
+                  code: INTERNAL_ERROR
+                  message: Error interno del servidor
+
   schemas:
     HealthResponse:
       type: object
@@ -568,6 +748,7 @@ components:
           type: string
           format: date-time
       required: [status, service, timestamp]
+
     Pagination:
       type: object
       properties:
@@ -584,6 +765,7 @@ components:
         hasPreviousPage:
           type: boolean
       required: [page, limit, totalItems, totalPages, hasNextPage, hasPreviousPage]
+
     Team:
       type: object
       xml:
@@ -599,15 +781,15 @@ components:
           type: string
         conference:
           type: string
+          enum: [East, West]
         division:
           type: string
         foundedYear:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         venue:
-          type: string
-          nullable: true
+          type: [string, 'null']
       required: [id, name, city, abbreviation, conference, division]
+
     TeamCreateRequest:
       type: object
       properties:
@@ -619,6 +801,7 @@ components:
           type: string
         conference:
           type: string
+          enum: [East, West]
         division:
           type: string
         foundedYear:
@@ -626,6 +809,7 @@ components:
         venue:
           type: string
       required: [name, city, abbreviation, conference, division]
+
     TeamPatchRequest:
       type: object
       properties:
@@ -637,16 +821,14 @@ components:
           type: string
         conference:
           type: string
+          enum: [East, West]
         division:
           type: string
         foundedYear:
           type: integer
         venue:
           type: string
-        championships:
-          type: integer
-        currentCoach:
-          type: string
+
     Player:
       type: object
       properties:
@@ -658,33 +840,22 @@ components:
           type: string
         fullName:
           type: string
-        birthDate:
-          type: string
-          format: date-time
-          nullable: true
-        nationality:
-          type: string
-          nullable: true
         position:
+          type: [string, 'null']
+        teamId:
           type: string
-          nullable: true
         heightCm:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         weightKg:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         jerseyNumber:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         active:
           type: boolean
         debutYear:
-          type: integer
-          nullable: true
-        teamId:
-          type: string
+          type: [integer, 'null']
       required: [id, firstName, lastName, fullName, active, teamId]
+
     PlayerCreateRequest:
       type: object
       properties:
@@ -694,12 +865,9 @@ components:
           type: string
         fullName:
           type: string
-        birthDate:
-          type: string
-          format: date-time
-        nationality:
-          type: string
         position:
+          type: string
+        teamId:
           type: string
         heightCm:
           type: integer
@@ -711,13 +879,20 @@ components:
           type: boolean
         debutYear:
           type: integer
-        teamId:
-          type: string
       required: [firstName, lastName, fullName, active, teamId]
+
     PlayerPatchRequest:
       type: object
       properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
         position:
+          type: string
+        teamId:
           type: string
         heightCm:
           type: integer
@@ -727,8 +902,9 @@ components:
           type: integer
         active:
           type: boolean
-        teamId:
-          type: string
+        debutYear:
+          type: integer
+
     Game:
       type: object
       properties:
@@ -750,24 +926,17 @@ components:
         awayTeamId:
           type: string
         homeScore:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         awayScore:
-          type: integer
-          nullable: true
+          type: [integer, 'null']
         winnerTeamId:
-          type: string
-          nullable: true
+          type: [string, 'null']
         arena:
-          type: string
-          nullable: true
+          type: [string, 'null']
         city:
-          type: string
-          nullable: true
-        attendance:
-          type: integer
-          nullable: true
+          type: [string, 'null']
       required: [id, season, date, status, phase, homeTeamId, awayTeamId]
+
     GameCreateRequest:
       type: object
       properties:
@@ -796,18 +965,26 @@ components:
           type: string
         city:
           type: string
-        attendance:
-          type: integer
       required: [season, date, status, phase, homeTeamId, awayTeamId]
+
     GamePatchRequest:
       type: object
       properties:
+        season:
+          type: integer
+        date:
+          type: string
+          format: date-time
         status:
           type: string
           enum: [scheduled, live, finished]
         phase:
           type: string
           enum: [preseason, regular, playoff]
+        homeTeamId:
+          type: string
+        awayTeamId:
+          type: string
         homeScore:
           type: integer
         awayScore:
@@ -818,8 +995,7 @@ components:
           type: string
         city:
           type: string
-        attendance:
-          type: integer
+
     TeamListResponse:
       type: object
       properties:
@@ -828,6 +1004,7 @@ components:
           items:
             $ref: '#/components/schemas/Team'
       required: [data]
+
     PlayerListResponse:
       type: object
       properties:
@@ -838,6 +1015,7 @@ components:
         pagination:
           $ref: '#/components/schemas/Pagination'
       required: [data, pagination]
+
     GameListResponse:
       type: object
       properties:
@@ -848,6 +1026,7 @@ components:
         pagination:
           $ref: '#/components/schemas/Pagination'
       required: [data, pagination]
+
     ErrorResponse:
       type: object
       properties:
