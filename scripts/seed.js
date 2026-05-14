@@ -20,9 +20,13 @@ async function seed() {
 
   const insertedTeams = await Team.insertMany(teamsData);
   const teamMap = {};
+  const teamDocMap = {};
   insertedTeams.forEach((t, i) => {
     const kaggleId = teamsData[i]._kaggleId;
-    if (kaggleId) teamMap[String(kaggleId)] = t._id;
+    if (kaggleId) {
+      teamMap[String(kaggleId)] = t._id;
+      teamDocMap[String(kaggleId)] = t;
+    }
   });
   console.log(`Teams insertados: ${insertedTeams.length}`);
 
@@ -44,6 +48,7 @@ async function seed() {
     .map(g => {
       const homeId  = teamMap[String(g._kaggleHomeTeamId)];
       const awayId  = teamMap[String(g._kaggleAwayTeamId)];
+      const homeTeam = teamDocMap[String(g._kaggleHomeTeamId)];
       const winnerId = g._kaggleWinnerHome ? homeId : awayId;
       return {
         season:       g.season || 2000,
@@ -56,6 +61,7 @@ async function seed() {
         awayScore:    g.awayScore,
         winnerTeamId: winnerId,
         arena:        g.arena,
+        city:         homeTeam?.city,
       };
     });
   const insertedGames = await Game.insertMany(gamesToInsert, { ordered: false });
