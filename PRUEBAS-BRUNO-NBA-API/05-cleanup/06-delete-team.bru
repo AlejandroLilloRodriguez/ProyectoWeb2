@@ -1,0 +1,25 @@
+meta {
+  name: 06 Delete Team
+  type: http
+  seq: 6
+  tags: [
+    cleanup
+    teams
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("deletes main team", function () {
+    expect(res.status).to.equal(204);
+  });
+}

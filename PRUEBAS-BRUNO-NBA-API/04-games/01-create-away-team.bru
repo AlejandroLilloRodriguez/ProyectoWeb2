@@ -1,0 +1,50 @@
+meta {
+  name: 01 Create Away Team
+  type: http
+  seq: 1
+  tags: [
+    games
+    teams
+    setup
+  ]
+}
+
+post {
+  url: {{baseUrl}}/teams
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "name": "Bruno Away Team {{suiteSuffix}}",
+    "city": "Away City",
+    "abbreviation": "BA{{suiteSuffix}}",
+    "conference": "East",
+    "division": "Central",
+    "foundedYear": 2024,
+    "venue": "Away Arena"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+script:post-response {
+  if (res.status === 201 && res.body.id) {
+    bru.setVar("awayTeamId", res.body.id);
+  }
+}
+
+tests {
+  test("creates an away team for game tests", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body).to.have.property("id").that.is.a("string");
+    expect(res.body).to.have.property("abbreviation", "BA" + bru.getVar("suiteSuffix"));
+  });
+}

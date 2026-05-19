@@ -1,0 +1,49 @@
+meta {
+  name: 05 Replace Team
+  type: http
+  seq: 5
+  tags: [
+    teams
+    crud
+  ]
+}
+
+put {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "name": "Bruno Replaced Team {{suiteSuffix}}",
+    "city": "Replace City",
+    "abbreviation": "BR{{suiteSuffix}}",
+    "conference": "East",
+    "division": "Atlantic",
+    "foundedYear": 2025,
+    "venue": "Replacement Arena"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("replaces the team", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.include({
+      id: bru.getVar("teamId"),
+      name: "Bruno Replaced Team " + bru.getVar("suiteSuffix"),
+      city: "Replace City",
+      abbreviation: "BR" + bru.getVar("suiteSuffix"),
+      conference: "East",
+      division: "Atlantic"
+    });
+  });
+}

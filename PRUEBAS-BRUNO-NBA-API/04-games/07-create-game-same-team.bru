@@ -1,0 +1,41 @@
+meta {
+  name: 07 Create Game Same Team
+  type: http
+  seq: 7
+  tags: [
+    games
+    negative
+  ]
+}
+
+post {
+  url: {{baseUrl}}/games
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "season": 2024,
+    "date": "2024-11-15T00:00:00.000Z",
+    "status": "finished",
+    "phase": "regular",
+    "homeTeamId": "{{teamId}}",
+    "awayTeamId": "{{teamId}}"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("rejects game with same home and away team", function () {
+    expect(res.status).to.equal(422);
+    expect(res.body.error).to.have.property("code", "VALIDATION_ERROR");
+  });
+}

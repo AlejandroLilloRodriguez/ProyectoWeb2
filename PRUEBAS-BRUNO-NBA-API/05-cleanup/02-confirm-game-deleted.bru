@@ -1,0 +1,26 @@
+meta {
+  name: 02 Confirm Game Deleted
+  type: http
+  seq: 2
+  tags: [
+    cleanup
+    games
+  ]
+}
+
+get {
+  url: {{baseUrl}}/games/{{gameId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("created game is gone", function () {
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.have.property("code", "NOT_FOUND");
+  });
+}

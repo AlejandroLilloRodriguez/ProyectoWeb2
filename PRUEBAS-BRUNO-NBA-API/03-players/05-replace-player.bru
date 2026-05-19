@@ -1,0 +1,50 @@
+meta {
+  name: 05 Replace Player
+  type: http
+  seq: 5
+  tags: [
+    players
+    crud
+  ]
+}
+
+put {
+  url: {{baseUrl}}/players/{{playerId}}
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "firstName": "Replaced",
+    "lastName": "Player {{suiteSuffix}}",
+    "fullName": "Replaced Player {{suiteSuffix}}",
+    "position": "F",
+    "teamId": "{{teamId}}",
+    "heightCm": 198,
+    "weightKg": 92,
+    "jerseyNumber": 11,
+    "active": true,
+    "debutYear": 2025
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("replaces the player", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.include({
+      id: bru.getVar("playerId"),
+      firstName: "Replaced",
+      position: "F",
+      teamId: bru.getVar("teamId")
+    });
+  });
+}

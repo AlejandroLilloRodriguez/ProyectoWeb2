@@ -1,0 +1,31 @@
+meta {
+  name: 02 List Teams
+  type: http
+  seq: 3
+  tags: [
+    teams
+    read
+  ]
+}
+
+get {
+  url: {{baseUrl}}/teams
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("returns teams list", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("data").that.is.an("array");
+  });
+  
+  test("includes created team", function () {
+    const teamId = bru.getVar("teamId");
+    expect(res.body.data.some((team) => team.id === teamId)).to.equal(true);
+  });
+}

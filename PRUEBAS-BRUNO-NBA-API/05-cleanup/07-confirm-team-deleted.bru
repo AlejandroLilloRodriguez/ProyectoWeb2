@@ -1,0 +1,26 @@
+meta {
+  name: 07 Confirm Team Deleted
+  type: http
+  seq: 7
+  tags: [
+    cleanup
+    teams
+  ]
+}
+
+get {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("main team is gone", function () {
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.have.property("code", "NOT_FOUND");
+  });
+}

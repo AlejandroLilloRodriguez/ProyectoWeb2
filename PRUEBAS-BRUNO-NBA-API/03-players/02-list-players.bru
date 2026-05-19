@@ -1,0 +1,33 @@
+meta {
+  name: 02 List Players
+  type: http
+  seq: 2
+  tags: [
+    players
+    read
+  ]
+}
+
+get {
+  url: {{baseUrl}}/players?teamId={{teamId}}&page=1&limit=10
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("returns paginated players", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("data").that.is.an("array");
+    expect(res.body).to.have.property("pagination");
+    expect(res.body.pagination).to.include({ page: 1, limit: 10 });
+  });
+  
+  test("includes created player", function () {
+    const playerId = bru.getVar("playerId");
+    expect(res.body.data.some((player) => player.id === playerId)).to.equal(true);
+  });
+}

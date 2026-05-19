@@ -1,0 +1,37 @@
+meta {
+  name: 06 Patch Team
+  type: http
+  seq: 6
+  tags: [
+    teams
+    crud
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "venue": "Patched Bruno Arena"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("patches the team", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("id", bru.getVar("teamId"));
+    expect(res.body).to.have.property("venue", "Patched Bruno Arena");
+  });
+}

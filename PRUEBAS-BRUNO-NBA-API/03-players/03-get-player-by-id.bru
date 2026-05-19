@@ -1,0 +1,27 @@
+meta {
+  name: 03 Get Player By Id
+  type: http
+  seq: 3
+  tags: [
+    players
+    read
+  ]
+}
+
+get {
+  url: {{baseUrl}}/players/{{playerId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("returns created player", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("id", bru.getVar("playerId"));
+    expect(res.body).to.have.property("teamId", bru.getVar("teamId"));
+  });
+}

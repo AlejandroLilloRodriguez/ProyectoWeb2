@@ -1,0 +1,25 @@
+meta {
+  name: 05 Delete Away Team
+  type: http
+  seq: 5
+  tags: [
+    cleanup
+    teams
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/teams/{{awayTeamId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("deletes away team", function () {
+    expect(res.status).to.equal(204);
+  });
+}

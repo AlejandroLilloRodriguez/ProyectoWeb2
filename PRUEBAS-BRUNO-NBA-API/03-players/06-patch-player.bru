@@ -1,0 +1,37 @@
+meta {
+  name: 06 Patch Player
+  type: http
+  seq: 6
+  tags: [
+    players
+    crud
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/players/{{playerId}}
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "active": false
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("patches the player", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("id", bru.getVar("playerId"));
+    expect(res.body).to.have.property("active", false);
+  });
+}

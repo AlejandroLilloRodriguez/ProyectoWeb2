@@ -1,0 +1,60 @@
+meta {
+  name: 02 Create Game
+  type: http
+  seq: 2
+  tags: [
+    games
+    crud
+  ]
+}
+
+post {
+  url: {{baseUrl}}/games
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "season": 2024,
+    "date": "2024-11-15T00:00:00.000Z",
+    "status": "finished",
+    "phase": "regular",
+    "homeTeamId": "{{teamId}}",
+    "awayTeamId": "{{awayTeamId}}",
+    "homeScore": 118,
+    "awayScore": 110,
+    "winnerTeamId": "{{teamId}}",
+    "arena": "Patched Bruno Arena",
+    "city": "Test City"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+script:post-response {
+  if (res.status === 201 && res.body.id) {
+    bru.setVar("gameId", res.body.id);
+  }
+}
+
+tests {
+  test("creates a game", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body).to.have.property("id").that.is.a("string");
+    expect(res.body).to.include({
+      season: 2024,
+      status: "finished",
+      phase: "regular",
+      homeTeamId: bru.getVar("teamId"),
+      awayTeamId: bru.getVar("awayTeamId"),
+      winnerTeamId: bru.getVar("teamId")
+    });
+  });
+}

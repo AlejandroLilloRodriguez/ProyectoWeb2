@@ -1,0 +1,25 @@
+meta {
+  name: 03 Delete Player
+  type: http
+  seq: 3
+  tags: [
+    cleanup
+    players
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/players/{{playerId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("deletes created player", function () {
+    expect(res.status).to.equal(204);
+  });
+}

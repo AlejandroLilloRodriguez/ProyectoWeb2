@@ -1,0 +1,25 @@
+meta {
+  name: 01 Delete Game
+  type: http
+  seq: 1
+  tags: [
+    cleanup
+    games
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/games/{{gameId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("deletes created game", function () {
+    expect(res.status).to.equal(204);
+  });
+}

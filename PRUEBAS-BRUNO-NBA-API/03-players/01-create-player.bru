@@ -1,0 +1,57 @@
+meta {
+  name: 01 Create Player
+  type: http
+  seq: 1
+  tags: [
+    players
+    crud
+  ]
+}
+
+post {
+  url: {{baseUrl}}/players
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "firstName": "Bruno",
+    "lastName": "Player {{suiteSuffix}}",
+    "fullName": "Bruno Player {{suiteSuffix}}",
+    "position": "G",
+    "teamId": "{{teamId}}",
+    "heightCm": 190,
+    "weightKg": 85,
+    "jerseyNumber": 7,
+    "active": true,
+    "debutYear": 2024
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+script:post-response {
+  if (res.status === 201 && res.body.id) {
+    bru.setVar("playerId", res.body.id);
+  }
+}
+
+tests {
+  test("creates a player for the team", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body).to.have.property("id").that.is.a("string");
+    expect(res.body).to.include({
+      firstName: "Bruno",
+      fullName: "Bruno Player " + bru.getVar("suiteSuffix"),
+      teamId: bru.getVar("teamId"),
+      active: true
+    });
+  });
+}

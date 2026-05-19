@@ -1,0 +1,41 @@
+meta {
+  name: 07 Create Player Invalid Team
+  type: http
+  seq: 7
+  tags: [
+    players
+    negative
+  ]
+}
+
+post {
+  url: {{baseUrl}}/players
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "firstName": "Invalid",
+    "lastName": "Team",
+    "fullName": "Invalid Team",
+    "position": "G",
+    "teamId": "000000000000000000000000",
+    "active": true
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("rejects player with missing team", function () {
+    expect(res.status).to.equal(422);
+    expect(res.body.error).to.have.property("code", "VALIDATION_ERROR");
+  });
+}

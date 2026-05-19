@@ -1,0 +1,37 @@
+meta {
+  name: 01 Health Check
+  type: http
+  seq: 1
+  tags: [
+    smoke
+    health
+  ]
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+script:pre-request {
+  if (!bru.hasVar("suiteSuffix")) {
+    bru.setVar("suiteSuffix", bru.interpolate("{{$timestamp}}"));
+  }
+}
+
+tests {
+  test("returns 200", function () {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("returns service metadata", function () {
+    expect(res.body).to.have.property("status", "ok");
+    expect(res.body).to.have.property("service", "nba-api");
+    expect(res.body).to.have.property("timestamp");
+  });
+}

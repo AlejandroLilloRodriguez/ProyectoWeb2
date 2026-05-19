@@ -1,0 +1,27 @@
+meta {
+  name: 03 Get Team By Id
+  type: http
+  seq: 2
+  tags: [
+    teams
+    read
+  ]
+}
+
+get {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+tests {
+  test("returns created team", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property("id", bru.getVar("teamId"));
+    expect(res.body).to.have.property("abbreviation", "BT" + bru.getVar("suiteSuffix"));
+  });
+}

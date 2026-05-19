@@ -1,0 +1,34 @@
+meta {
+  name: 04 Get Team XML
+  type: http
+  seq: 4
+  tags: [
+    teams
+    xml
+  ]
+}
+
+get {
+  url: {{baseUrl}}/teams/{{teamId}}
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/xml
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+  teamId: 6a0585249137f49bd828f981
+}
+
+tests {
+  test("returns XML representation", function () {
+    expect(res.status).to.equal(200);
+    expect(res.headers["content-type"]).to.include("application/xml");
+    expect(res.body).to.be.a("string");
+    expect(res.body).to.include("<Team>");
+    expect(res.body).to.include("<id>" + bru.getVar("teamId") + "</id>");
+  });
+}

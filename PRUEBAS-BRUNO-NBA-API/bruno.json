@@ -1,0 +1,8 @@
+{
+  "version": "1",
+  "name": "NBA API",
+  "type": "collection",
+  "scripts": {
+    "flow": "sequential"
+  }
+}

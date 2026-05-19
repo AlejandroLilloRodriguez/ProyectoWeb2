@@ -1,0 +1,55 @@
+meta {
+  name: 01 Create Team
+  type: http
+  seq: 1
+  tags: [
+    teams
+    crud
+    setup
+  ]
+}
+
+post {
+  url: {{baseUrl}}/teams
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "name": "Bruno Test Team {{suiteSuffix}}",
+    "city": "Test City",
+    "abbreviation": "BT{{suiteSuffix}}",
+    "conference": "West",
+    "division": "Pacific",
+    "foundedYear": 2024,
+    "venue": "Bruno Arena"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api/v1
+}
+
+script:post-response {
+  if (res.status === 201 && res.body.id) {
+    bru.setVar("teamId", res.body.id);
+  }
+}
+
+tests {
+  test("creates a team", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body).to.have.property("id").that.is.a("string");
+    expect(res.body).to.include({
+      name: "Bruno Test Team " + bru.getVar("suiteSuffix"),
+      city: "Test City",
+      conference: "West",
+      division: "Pacific"
+    });
+  });
+}
